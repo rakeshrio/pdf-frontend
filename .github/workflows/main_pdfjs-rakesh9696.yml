@@ -67,5 +67,5 @@ jobs:
         with:
           app-name: 'pdfjs-rakesh9696'
           slot-name: 'Production'
-          package: .
+          package: ./dist
           
