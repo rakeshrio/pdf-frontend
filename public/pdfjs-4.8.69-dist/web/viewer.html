@@ -33,7 +33,23 @@ See https://github.com/adobe-type-tools/cmap-resources
 
     <link rel="stylesheet" href="viewer.css">
 
-  <script src="viewer.mjs" type="module"></script>
+<!--   <script src="viewer.mjs" type="module"></script> -->
+      <script>
+  // Patch loader for .mjs with wrong MIME
+  fetch('./viewer.mjs')
+    .then((res) => res.blob())
+    .then((blob) => {
+      const fixed = new Blob([blob], { type: 'application/javascript' });
+      const url = URL.createObjectURL(fixed);
+      const script = document.createElement('script');
+      script.type = 'module';
+      script.src = url;
+      document.head.appendChild(script);
+    })
+    .catch((err) => {
+      console.error("Failed to load patched viewer.mjs:", err);
+    });
+</script>
   </head>
 
   <body tabindex="0">
