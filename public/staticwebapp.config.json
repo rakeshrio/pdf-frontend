@@ -1,6 +1,6 @@
 {
   "mimeTypes": {
-    ".mjs": "application/octet-stream",
+    ".mjs": "application/javascript",
     ".js": "application/javascript",
     ".css": "text/css",
     ".html": "text/html",
