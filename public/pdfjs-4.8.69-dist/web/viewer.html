@@ -29,29 +29,12 @@ See https://github.com/adobe-type-tools/cmap-resources
 
 <!-- This snippet is used in production (included from viewer.html) -->
 <link rel="resource" type="application/l10n" href="locale/locale.json">
-<!-- <script src="../build/pdf.mjs" type="module"></script> -->
+<script src="../build/pdf.js" type="module"></script>
 
     <link rel="stylesheet" href="viewer.css">
 
-<!--   <script src="viewer.mjs" type="module"></script> -->
-  <script>
-    function patchModuleLoad(path) {
-      fetch(path)
-        .then(res => res.blob())
-        .then(blob => {
-          const fixedBlob = new Blob([blob], { type: 'application/javascript' });
-          const blobURL = URL.createObjectURL(fixedBlob);
-          const script = document.createElement('script');
-          script.type = 'module';
-          script.src = blobURL;
-          document.head.appendChild(script);
-        })
-        .catch(err => console.error(`Failed to patch ${path}`, err));
-    }
-
-    patchModuleLoad('../build/pdf.mjs');
-    patchModuleLoad('./viewer.mjs');
-  </script>
+  <script src="viewer.js" type="module"></script>
+  
   </head>
 
   <body tabindex="0">
