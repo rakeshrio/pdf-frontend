@@ -29,27 +29,29 @@ See https://github.com/adobe-type-tools/cmap-resources
 
 <!-- This snippet is used in production (included from viewer.html) -->
 <link rel="resource" type="application/l10n" href="locale/locale.json">
-<script src="../build/pdf.mjs" type="module"></script>
+<!-- <script src="../build/pdf.mjs" type="module"></script> -->
 
     <link rel="stylesheet" href="viewer.css">
 
 <!--   <script src="viewer.mjs" type="module"></script> -->
-      <script>
-  // Patch loader for .mjs with wrong MIME
-  fetch('./viewer.mjs')
-    .then((res) => res.blob())
-    .then((blob) => {
-      const fixed = new Blob([blob], { type: 'application/javascript' });
-      const url = URL.createObjectURL(fixed);
-      const script = document.createElement('script');
-      script.type = 'module';
-      script.src = url;
-      document.head.appendChild(script);
-    })
-    .catch((err) => {
-      console.error("Failed to load patched viewer.mjs:", err);
-    });
-</script>
+  <script>
+    function patchModuleLoad(path) {
+      fetch(path)
+        .then(res => res.blob())
+        .then(blob => {
+          const fixedBlob = new Blob([blob], { type: 'application/javascript' });
+          const blobURL = URL.createObjectURL(fixedBlob);
+          const script = document.createElement('script');
+          script.type = 'module';
+          script.src = blobURL;
+          document.head.appendChild(script);
+        })
+        .catch(err => console.error(`Failed to patch ${path}`, err));
+    }
+
+    patchModuleLoad('../build/pdf.mjs');
+    patchModuleLoad('./viewer.mjs');
+  </script>
   </head>
 
   <body tabindex="0">
